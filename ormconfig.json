@@ -1,0 +1,17 @@
+{
+    "type": "mysql",
+    "host": "sql7.freemysqlhosting.net",
+    "port": 3306,
+    "username": "sql7362320",
+    "password": "DRpTIMVqCk",
+    "database": "sql7362320",
+    "entities": ["dist/entity/*.js"],
+    "migrationsTableName": "custom_migration_table",
+    "migrations": ["migration/*.js"],
+    "cli": {
+        "migrationsDir": "migration"
+    },
+    "logging": true,
+    "synchronize": true,
+    "autoLoadEntities": true
+  }
