@@ -13,8 +13,11 @@ export class PoliceOfficer {
     @Column()
     surname: string = "";
 
+    @Column()
+    isAvailable: boolean = true;
+
     @OneToOne(_type => Bike)
     @JoinColumn()
-    bike!: Bike;
+    bike: Bike | undefined;
 
 }

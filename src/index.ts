@@ -1,16 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
-import {Request, Response} from "express";
-import {createConnection, getRepository} from "typeorm";
-import {User} from "./entity/User";
-import {Bike} from "./entity/Bike";
-import {PoliceOfficer} from "./entity/PoliceOfficer";
-
-// create database connection
-createConnection();
+import { createConnection } from "typeorm";
+import { getAllBikes, postBike } from "./controller/bike";
+import { getAllPoliceOfficers, postPoliceOfficer, resolvePoliceOfficerBike } from "./controller/policeOfficer";
 
 // create and setup express app
 const app = express();
+// create database connection
+createConnection();
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -18,28 +15,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 //test routes
-app.get("/bike", async function(_req: Request, res: Response) {
-    const bikes = await getRepository(Bike).find();
-    res.json(bikes);
-});
+app.get("/bike", getAllBikes);
+app.post("/bike", postBike);
 
-app.get("/policeOfficer", async function(_req: Request, res: Response) {
-    const policeOfficers = await getRepository(PoliceOfficer).find();
-    res.json(policeOfficers);
-});
-
-app.get("/users", async function(_req: Request, res: Response) {
-    const users = await getRepository(User).find();
-    res.json(users);
-});
-
-app.post("/users", function(req: Request, res: Response) {
-    console.log(req.body);
-    const users = getRepository(User);
-    const user = new User();
-    users.save(user);
-    res.send(req.body);
-});
+app.get("/policeOfficer", getAllPoliceOfficers);
+app.post("/policeOfficer", postPoliceOfficer);
+app.put("/policeOfficer/resolve", resolvePoliceOfficerBike);
 
 // start express server
 app.listen(3000);
